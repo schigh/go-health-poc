@@ -1,0 +1,21 @@
+version: "3"
+services:
+  mysql:
+    container_name: go-health-sql-queryer-mysql
+    image: mysql:5.6
+    environment:
+      MYSQL_ROOT_PASSWORD: 'health=-0'
+
+  web:
+    container_name: go-health-sql-queryer-web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    environment:
+      DB_USER: root
+      DB_PASS: 'health=-0'
+    depends_on:
+      - mysql
+    command: ["/go/src/github.com/schigh/go-health-poc/app"]
